@@ -43,12 +43,16 @@ final class HomeViewModel: ObservableObject {
         state = .loading
         prefixMatchWords.removeAll()
         suffixMatchWords.removeAll()
+        var prefixWordDict: [String : Bool] = [:]
+        var suffixWordDict: [String : Bool] = [:]
         for word in wordList {
-            if word.hasPrefix(text) {
+            if word.hasPrefix(text) && prefixWordDict[word] == nil {
                 prefixMatchWords.append(word)
+                prefixWordDict[word] = true
             }
-            if word.hasSuffix(text) {
+            if word.hasSuffix(text) && suffixWordDict[word] == nil {
                 suffixMatchWords.append(word)
+                suffixWordDict[word] = true
             }
         }
         state = .loaded
@@ -70,7 +74,6 @@ final class HomeViewModel: ObservableObject {
         do {
             let fileContents = try String(contentsOfFile: filePath, encoding: .utf8)
             wordList = fileContents.components(separatedBy: "\n")
-            wordList = Array(Set(wordList))
             NSLog("Number of words found: \(wordList.count)")
             state = .loaded
         } catch {
