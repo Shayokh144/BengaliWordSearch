@@ -16,6 +16,7 @@ struct HomeScreen: View {
             LazyVStack(alignment: .leading) {
                 ForEach(viewModel.suffixMatchWords, id: \.self) { word in
                     Text(word)
+                        .padding(.bottom, 2.0)
                 }
             }
         }
@@ -26,6 +27,7 @@ struct HomeScreen: View {
             LazyVStack(alignment: .leading) {
                 ForEach(viewModel.prefixMatchWords, id: \.self) { word in
                     Text(word)
+                        .padding(.bottom, 2.0)
                 }
             }
         }
@@ -38,9 +40,9 @@ struct HomeScreen: View {
                     ProgressView()
                 case .loaded:
                     HStack {
-                        suffixView
-                        Spacer()
                         prefixView
+                        Spacer()
+                        suffixView
                     }
                     .padding()
                 case .error:
