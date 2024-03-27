@@ -13,6 +13,7 @@ struct HomeScreen: View {
     @StateObject private var viewModel: HomeViewModel
     @State private var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @State private var copiedWord: String = ""
+    @State private var isPresentWebView = false
     
     private var suffixView: some View {
         ScrollView(showsIndicators: false) {
@@ -21,10 +22,7 @@ struct HomeScreen: View {
                     Text(word)
                         .padding(.bottom, 2.0)
                         .onTapGesture(count: 2) {
-                            let urlString = "https://www.google.com/search?q=\(word)+অর্থ&oq=\(word)+অর্থ"
-                            if let url = URL(string: urlString) {
-                                UIApplication.shared.open(url)
-                            }
+                            handleDoubleTap(for: word)
                         }
                         .onLongPressGesture(minimumDuration: 0.5, maximumDistance: 30) {
                             processCopyText(word: word)
@@ -43,10 +41,7 @@ struct HomeScreen: View {
                     Text(word)
                         .padding(.bottom, 2.0)
                         .onTapGesture(count: 2) {
-                            let urlString = "https://www.google.com/search?q=\(word)+অর্থ&oq=\(word)+অর্থ"
-                            if let url = URL(string: urlString) {
-                                UIApplication.shared.open(url)
-                            }
+                            handleDoubleTap(for: word)
                         }
                         .onLongPressGesture(minimumDuration: 0.5, maximumDistance: 30) {
                             processCopyText(word: word)
@@ -67,39 +62,58 @@ struct HomeScreen: View {
             .cornerRadius(16.0)
     }
     
+    private var contentView: some View {
+        VStack {
+            switch viewModel.state {
+                case .loading:
+                    ProgressView()
+                case .loaded:
+                    VStack {
+                        if !copiedWord.isEmpty {
+                            copyTextToast
+                        }
+                        HStack {
+                            prefixView
+                            Spacer()
+                            suffixView
+                        }
+                        .padding(.top, 8.0)
+                    }
+                    .padding()
+                    .animation(.linear, value: copiedWord.isEmpty)
+                case .error:
+                    Text("Error")
+                    Button("Try again", action: viewModel.tryAgain)
+                    
+            }
+        }
+    }
+    
     var body: some View {
         NavigationStack {
-            VStack {
-                switch viewModel.state {
-                    case .loading:
-                        ProgressView()
-                    case .loaded:
-                        VStack {
-                            if !copiedWord.isEmpty {
-                                copyTextToast
-                            }
-                            HStack {
-                                prefixView
-                                Spacer()
-                                suffixView
-                            }
-                            .padding(.top, 8.0)
+            contentView
+                .navigationTitle("Search Bengali Word")
+                .searchable(
+                    text: $viewModel.searchText,
+                    placement: .navigationBarDrawer(displayMode: .always),
+                    prompt: "write word here"
+                )
+                .padding()
+                .animation(.linear, value: isPresentWebView)
+                .sheet(isPresented: $isPresentWebView) {
+                    NavigationStack {
+                        if let url = viewModel.wordMeaningURL {
+                            WebView(url: url)
+                                .ignoresSafeArea()
+                                .navigationTitle("Word Meaning")
+                                .navigationBarTitleDisplayMode(.inline)
+                            
+                        } else {
+                            Text("Wrong URL")
                         }
-                        .padding()
-                        .animation(.linear, value: copiedWord.isEmpty)
-                    case .error:
-                        Text("Error")
-                        Button("Try again", action: viewModel.tryAgain)
-                        
+                    }
+                    .presentationDetents([.fraction(0.7)])
                 }
-            }
-            .navigationTitle("Search Bengali Word")
-            .searchable(
-                text: $viewModel.searchText,
-                placement: .navigationBarDrawer(displayMode: .always),
-                prompt: "write here"
-            )
-            .padding()
         }
         .onAppear {
             viewModel.viewAppear()
@@ -115,11 +129,11 @@ struct HomeScreen: View {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
     
-    func stopTimer() {
+    private func stopTimer() {
         timer.upstream.connect().cancel()
     }
     
-    func startTimer() {
+    private func startTimer() {
         timer = Timer.publish(every: 2.0, on: .main, in: .common).autoconnect()
     }
     
@@ -127,5 +141,10 @@ struct HomeScreen: View {
         UIPasteboard.general.string = word
         copiedWord = word
         startTimer()
+    }
+    
+    private func handleDoubleTap(for word: String) {
+        viewModel.onSelectWord(word: word)
+        isPresentWebView = true
     }
 }

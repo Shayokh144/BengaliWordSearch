@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		045E39652BB452750015E229 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045E39642BB452750015E229 /* WebView.swift */; };
 		04D6080B2BB1DCDB00526B0B /* BengaliWordSearchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D6080A2BB1DCDB00526B0B /* BengaliWordSearchApp.swift */; };
 		04D6080D2BB1DCDB00526B0B /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D6080C2BB1DCDB00526B0B /* HomeScreen.swift */; };
 		04D6080F2BB1DCDB00526B0B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04D6080E2BB1DCDB00526B0B /* Assets.xcassets */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		045E39642BB452750015E229 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		04D608072BB1DCDB00526B0B /* BengaliWordSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BengaliWordSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04D6080A2BB1DCDB00526B0B /* BengaliWordSearchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BengaliWordSearchApp.swift; sourceTree = "<group>"; };
 		04D6080C2BB1DCDB00526B0B /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
@@ -36,9 +38,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		045E39632BB451690015E229 /* WebView */ = {
+			isa = PBXGroup;
+			children = (
+				045E39642BB452750015E229 /* WebView.swift */,
+			);
+			path = WebView;
+			sourceTree = "<group>";
+		};
 		04D607FE2BB1DCDB00526B0B = {
 			isa = PBXGroup;
 			children = (
+				045E39632BB451690015E229 /* WebView */,
 				04D608182BB1DD0000526B0B /* Resource */,
 				04D608092BB1DCDB00526B0B /* BengaliWordSearch */,
 				04D608082BB1DCDB00526B0B /* Products */,
@@ -153,6 +164,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				04D6080D2BB1DCDB00526B0B /* HomeScreen.swift in Sources */,
+				045E39652BB452750015E229 /* WebView.swift in Sources */,
 				04D6081C2BB1DD9A00526B0B /* HomeViewModel.swift in Sources */,
 				04D6080B2BB1DCDB00526B0B /* BengaliWordSearchApp.swift in Sources */,
 			);

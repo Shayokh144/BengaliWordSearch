@@ -15,8 +15,13 @@ final class HomeViewModel: ObservableObject {
     @Published private(set) var suffixMatchWords: [String]
     @Published private(set) var prefixMatchWords: [String]
     @Published private(set) var state: State
+    @Published private(set) var selectedWord: String = ""
     
     private var cancellables = Set<AnyCancellable>()
+    
+    var wordMeaningURL: URL? {
+        URL(string: "https://www.google.com/search?q=\(selectedWord)+অর্থ&oq=\(selectedWord)+অর্থ")
+    }
     
     init() {
         wordList = []
@@ -63,6 +68,9 @@ final class HomeViewModel: ObservableObject {
         searchText = ""
     }
     
+    func onSelectWord(word: String) {
+        selectedWord = word
+    }
     
     private func loadWordList() {
         state = .loading
