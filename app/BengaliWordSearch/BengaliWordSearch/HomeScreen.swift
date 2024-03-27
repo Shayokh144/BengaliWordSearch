@@ -21,7 +21,15 @@ struct HomeScreen: View {
                     Text(word)
                         .padding(.bottom, 2.0)
                         .onTapGesture(count: 2) {
+                            let urlString = "https://www.google.com/search?q=\(word)+অর্থ&oq=\(word)+অর্থ"
+                            if let url = URL(string: urlString) {
+                                UIApplication.shared.open(url)
+                            }
+                        }
+                        .onLongPressGesture(minimumDuration: 0.5, maximumDistance: 30) {
                             processCopyText(word: word)
+                        } onPressingChanged: { _ in
+                            
                         }
                 }
             }
@@ -35,7 +43,15 @@ struct HomeScreen: View {
                     Text(word)
                         .padding(.bottom, 2.0)
                         .onTapGesture(count: 2) {
-                           processCopyText(word: word)
+                            let urlString = "https://www.google.com/search?q=\(word)+অর্থ&oq=\(word)+অর্থ"
+                            if let url = URL(string: urlString) {
+                                UIApplication.shared.open(url)
+                            }
+                        }
+                        .onLongPressGesture(minimumDuration: 0.5, maximumDistance: 30) {
+                            processCopyText(word: word)
+                        } onPressingChanged: { _ in
+                            
                         }
                 }
             }
