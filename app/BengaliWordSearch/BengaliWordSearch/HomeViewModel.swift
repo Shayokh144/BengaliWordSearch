@@ -20,7 +20,7 @@ final class HomeViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     var wordMeaningURL: URL? {
-        URL(string: "https://www.google.com/search?q=\(selectedWord)+অর্থ&oq=\(selectedWord)+অর্থ")
+        URL(string: "https://www.google.com/search?q=\(selectedWord)+সমার্থক&oq=\(selectedWord)+সমার্থক")
     }
     
     init() {
